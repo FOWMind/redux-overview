@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef, useState } from "react";
+import { store } from "./store";
 
 function App() {
+  const [initialState] = useState(store.getState());
+  const [currentState, setCurrentState] = useState(initialState);
+  const increasePayload = useRef();
+  const decreasePayload = useRef();
+
+  useEffect(() => {
+    store.subscribe(() => {
+      setCurrentState(store.getState());
+    });
+  }, []);
+
+  const increase = () => {
+    const payload = Number(increasePayload.current.value);
+    store.dispatch({
+      type: "INCREASE",
+      payload,
+    });
+  };
+
+  const decrease = () => {
+    const payload = Number(decreasePayload.current.value);
+    store.dispatch({
+      type: "DECREASE",
+      payload,
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Counter</h1>
+      <p>initial state: {initialState}</p>
+      <p>current state: {currentState}</p>
+      <div>
+        <label>Increase amount: </label>
+        <input ref={increasePayload} type="number" />
+      </div>
+      <div>
+        <label>Decrease amount: </label>
+        <input ref={decreasePayload} type="number" />
+      </div>
+      <button onClick={increase}>increase</button>
+      <button onClick={decrease}>decrease</button>
     </div>
   );
 }
