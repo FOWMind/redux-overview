@@ -7,7 +7,7 @@ export const store = configureStore({
         return state + (action.payload || 1);
       case "DECREASE":
         return state - (action.payload || 1);
-      case "CHANGE":
+      case "SET":
         return action.payload;
       default:
         return state;

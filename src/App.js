@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { store } from "./store";
 
 function App() {
   const [initialState] = useState(store.getState());
   const [currentState, setCurrentState] = useState(initialState);
-  const increasePayload = useRef();
-  const decreasePayload = useRef();
+  const [amount, setAmount] = useState();
 
   useEffect(() => {
     store.subscribe(() => {
@@ -13,19 +12,29 @@ function App() {
     });
   }, []);
 
+  const handleChange = (e) => {
+    setAmount(Number(e.target.value));
+  };
+
   const increase = () => {
-    const payload = Number(increasePayload.current.value);
     store.dispatch({
       type: "INCREASE",
-      payload,
+      payload: amount,
     });
   };
 
   const decrease = () => {
-    const payload = Number(decreasePayload.current.value);
     store.dispatch({
       type: "DECREASE",
-      payload,
+      payload: amount,
+    });
+  };
+
+  const set = () => {
+    if (!amount) return;
+    store.dispatch({
+      type: "SET",
+      payload: amount,
     });
   };
 
@@ -35,15 +44,12 @@ function App() {
       <p>initial state: {initialState}</p>
       <p>current state: {currentState}</p>
       <div>
-        <label>Increase amount: </label>
-        <input ref={increasePayload} type="number" />
-      </div>
-      <div>
-        <label>Decrease amount: </label>
-        <input ref={decreasePayload} type="number" />
+        <label>Amount: </label>
+        <input type="number" onChange={handleChange} placeholder="example: 3" />
       </div>
       <button onClick={increase}>increase</button>
       <button onClick={decrease}>decrease</button>
+      <button onClick={set}>set</button>
     </div>
   );
 }
