@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { store } from "../store";
 
 export function Redux() {
-  const [initialState] = useState(store.getState());
+  const [initialState] = useState(store.getState().counter);
   const [currentState, setCurrentState] = useState(initialState);
   const [amount, setAmount] = useState();
 
   useEffect(() => {
     store.subscribe(() => {
-      setCurrentState(store.getState());
+      const { counter } = store.getState();
+      setCurrentState(counter);
     });
   }, []);
 
