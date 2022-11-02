@@ -41,7 +41,6 @@ export function Redux() {
 
   return (
     <div style={{ border: "1px solid black", padding: "1rem" }}>
-      <h2>Redux core</h2>
       <h3>Counter</h3>
       <p>initial state: {initialState}</p>
       <p>current state: {currentState}</p>

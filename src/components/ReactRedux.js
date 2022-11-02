@@ -36,7 +36,6 @@ export function ReactRedux() {
 
   return (
     <div style={{ border: "1px solid black", padding: "1rem" }}>
-      <h2>React redux</h2>
       <h3>Counter</h3>
       <p>initial state: {initialState}</p>
       <p>current state: {counter}</p>
